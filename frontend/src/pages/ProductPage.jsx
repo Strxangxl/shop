@@ -1,26 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";	
 import { NavLink, useParams } from "react-router-dom";
-
+import { listProductDetails } from "../actions/productActions";
 import Ratings from "../components/Ratings";
 import { Typography, Button, Container, Stack, Card, List, ListItem } from '@mui/material';
 
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+
 const ProductPage = () => {
+	const dispatch = useDispatch()
+
+	const productDetails = useSelector(state => state.productDetails)
+	const { loading, error, product } = productDetails
 
 	const { id } = useParams();
-	
-	const [product, setProduct] = useState({});
 
 	useEffect(() => {
-		const fetchProduct = async () => {
-			const { data } = await axios.get(`/api/products/${id}`)
-
-			setProduct(data);
-		}
-
-		fetchProduct();
-	}, [id])
+		dispatch(listProductDetails(id))
+	}, [dispatch, id])
 
 	const linkColor = {
 		textDecoration: 'none',
@@ -38,7 +36,8 @@ const ProductPage = () => {
 					<NavLink to="/" style={linkColor}>Go Back</NavLink>
 				</Button>
 
-				<Stack direction="row">
+				{loading ? ( <Loader /> ) : error ? ( <Message variant="error">{error}</Message> ) : (
+					<Stack direction="row">
 					<img src={product.image} alt={product.name} height={250}/>
 					<Stack direction="column" sx={center} spacing={4}>
 						<Typography variant="h5">{product.name}</Typography>
@@ -72,6 +71,8 @@ const ProductPage = () => {
 						</List>
 					</Card>
 				</Stack>
+				)}
+				
 		</>
 	)
 }
