@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";	
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { listProductDetails } from "../actions/productActions";
 import Ratings from "../components/Ratings";
-import { Typography, Button, Container, Stack, Card, List, ListItem } from '@mui/material';
+import { Typography, Button, Container, Stack, Card, List, ListItem, FormControl, Select, MenuItem } from '@mui/material';
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
 const ProductPage = () => {
+	const [qty, setQty] = useState(0);
+	const navigate = useNavigate();
 	const dispatch = useDispatch()
 
 	const productDetails = useSelector(state => state.productDetails)
@@ -19,6 +21,11 @@ const ProductPage = () => {
 	useEffect(() => {
 		dispatch(listProductDetails(id))
 	}, [dispatch, id])
+
+	
+	const addToCartHandler = () => {
+		navigate(`/cart/${id}?qty=${qty}`)
+	}
 
 	const linkColor = {
 		textDecoration: 'none',
@@ -63,9 +70,26 @@ const ProductPage = () => {
 								</Stack>
 							</ListItem>
 
+							{product.countInStock > 0 && (
+								<ListItem>
+									<Stack spacing={4} direction="row">
+										<Typography variant="subtitle2">Qty:</Typography>
+										<FormControl>
+											<Select id="qtty" value={qty} label="qty" onChange={(e) => setQty(e.target.value)}>
+												{[...Array(product.countInStock).keys()].map((x) => (
+													<MenuItem key={x + 1} value={x + 1}>
+														{x + 1}
+													</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+									</Stack>
+								</ListItem>
+							)}
+
 							<ListItem>
 								<Stack sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-									<Button variant="outlined" disabled={product.countInStock === 0}>Add To Cart</Button>
+									<Button onClick={addToCartHandler} variant="outlined" disabled={product.countInStock === 0}>Add To Cart</Button>
 								</Stack>
 							</ListItem>
 						</List>
