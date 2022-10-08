@@ -51,7 +51,7 @@ const Navbar = () => {
                 <NavLink to="#" style={{ my: 2, color: 'white', display: 'block', textDecoration: 'none' }}>SignUp</NavLink>
               </Button>
               <Button sx={{ my: 2, color: 'white', display: 'block' }}>
-                <NavLink to="#" style={{ my: 2, color: 'white', display: 'block', textDecoration: 'none' }}>SignIn</NavLink>
+                <NavLink to={'/login'} style={{ my: 2, color: 'white', display: 'block', textDecoration: 'none' }}>SignIn</NavLink>
               </Button>
               <Button>
                 <NavLink to="/cart" style={{ my: 2, color: 'white', display: 'block', textDecoration: 'none' }}>
