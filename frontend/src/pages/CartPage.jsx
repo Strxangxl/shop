@@ -72,7 +72,9 @@ const CartPage = () => {
 								${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
 							</ListItem>
 							<ListItem>
-								<Button disabled={cartItems.length === 0} onClick={checkOutHandler}>Proceed to Checkout</Button>
+								<Button disabled={cartItems.length === 0} onClick={checkOutHandler}>
+									Proceed to Checkout
+								</Button>
 							</ListItem>
 						</List>
 					   )}
