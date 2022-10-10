@@ -117,7 +117,9 @@ const PlaceorderPage = () => {
 							</CardContent>
 							{error && <Message variant="error">{error}</Message>}
 							<CardActions>
-								 <Button variant="contained" disabled={cart.cartItems === 0} onClick={placeOrderHandler}>Place Order</Button>
+								 <Button variant="contained" disabled={cart.cartItems === 0} onClick={placeOrderHandler}>
+								 	<NavLink to={"/order/:id"}>Place Order</NavLink>
+								 </Button>
 							</CardActions>
 						</Card>
 					</Grid>
